@@ -5,6 +5,7 @@
         {% include "elements/journal/issue_top.html" with level=level %}
 
         {% include "elements/journal/issue_block.html" with level=level %}
+        {% load hooks %}{% hook 'issue_footer_block' %}
 
         {% include "elements/journal/issue_paginator.html" %}
     </div>

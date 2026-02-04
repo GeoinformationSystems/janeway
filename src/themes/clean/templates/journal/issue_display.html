@@ -6,6 +6,7 @@
 
         {% include "elements/journal/issue_top.html" with level="shallow" %}
         {% include "elements/journal/issue_block.html" with level="shallow" %}
+        {% load hooks %}{% hook 'issue_footer_block' %}
         {% include "elements/journal/issue_paginator.html" %}
 
 
