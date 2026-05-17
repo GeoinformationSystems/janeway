@@ -6,6 +6,11 @@ endif
 JANEWAY_PORT ?= 8000
 PGADMIN_PORT ?= 8001
 SNAKEVIZ_PORT ?= 8002
+# Secondary janeway-web instance — used by `make janeway-secondary` to run a
+# parallel dev server on a different port (e.g. for E2E test workflows that
+# want a long-lived browseable demo on a known port without disturbing the
+# primary dev server on JANEWAY_PORT).
+JANEWAY_SECONDARY_PORT ?= 9000
 
 unexport NO_DEPS
 DB_NAME ?= janeway
@@ -82,6 +87,8 @@ help:		## Show this help.
 janeway:	## Run Janeway web server in attached mode. If NO_DEPS is not set, runs all dependant services detached.
 	$(COMPOSE_CMD) run --rm start_dependencies
 	$(COMPOSE_CMD) $(_VERBOSE) run $(NO_DEPS) --rm --service-ports janeway-web $(entrypoint)
+janeway-secondary:	## Run a parallel Janeway web server on JANEWAY_SECONDARY_PORT (default 9000) without touching the primary on JANEWAY_PORT. Skips dependency restart — primary must already be up.
+	JANEWAY_PORT=$(JANEWAY_SECONDARY_PORT) $(COMPOSE_CMD) $(_VERBOSE) run --no-deps --rm --service-ports janeway-web $(entrypoint)
 command:	## Run Janeway in a container and pass through a django command passed as the CMD environment variable (e.g make command CMD="migrate -v core 0024")
 	$(COMPOSE_CMD) run $(NO_DEPS) --rm janeway-web $(CMD)
 install:	## Run the install_janeway command inside a container
