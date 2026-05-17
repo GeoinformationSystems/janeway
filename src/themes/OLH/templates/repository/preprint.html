@@ -113,6 +113,7 @@
         </div>
         <div class="large-3 columns">
             <div class="article-menu">
+                {% hook 'article_sidebar' preprint %}
                 <small>
                     {% if preprint.current_version.file %}
                         <h2>{% trans "Downloads" %}</h2>

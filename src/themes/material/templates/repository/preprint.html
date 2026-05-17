@@ -217,6 +217,8 @@
                       <p><strong>{% trans "Views" %}:</strong> {{ preprint.views.count }}</p>
                       <p><strong>{% trans "Downloads" %}:</strong> {{ preprint.downloads.count }}</p>
                     {% endif %}
+
+                    {% hook 'article_sidebar' preprint %}
                 </div>
             </div>
         </div>
